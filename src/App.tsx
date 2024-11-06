@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import Board from "./components/Board";
 // import TaskForm from "./components/TaskForm";
 import NewTask from "./components/NewTask";
+import EditTask from "./components/EditTask";
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Board />}></Route>
           <Route path="/new-task" element={<NewTask />}></Route>
-          {/* <Route path="/edit-task/:task-id" element={<TaskForm />}></Route> */}
+          <Route path="/edit-task/:taskId" element={<EditTask />}></Route>
         </Routes>
       </div>
     </>

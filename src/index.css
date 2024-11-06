@@ -17,3 +17,10 @@
   font-weight: bold;
   text-align: center;
 }
+
+.page-sub-header {
+  font-size: 1em;
+  font-weight: normal;
+  text-align: center;
+  margin: 25px 0;
+}

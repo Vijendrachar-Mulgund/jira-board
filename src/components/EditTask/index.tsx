@@ -1,11 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Status, Task } from "../../types";
 import TaskForm from "../TaskForm";
 import dayjs, { Dayjs } from "dayjs";
 import { SelectChangeEvent } from "@mui/material/Select";
+import { useNavigate, useParams } from "react-router-dom";
 
-export default function NewTask() {
-  const [newTask, setNewTask] = useState<Task>({
+export default function EditTask() {
+  const { taskId } = useParams();
+  const navigate = useNavigate();
+
+  const [allTasks, setAllTasks] = useState<Task[]>([]);
+  const [editTask, setEditTask] = useState<Task>({
     id: "",
     name: "",
     description: "",
@@ -13,53 +18,78 @@ export default function NewTask() {
     status: Status.toDo,
   });
 
+  useEffect(() => {
+    const localData = localStorage.getItem("tasks");
+
+    if (localData) {
+      setAllTasks(JSON.parse(localData));
+    }
+  }, [taskId]);
+
+  useEffect(() => {
+    if (allTasks?.length > 0) {
+      const taskToEdit: Task | undefined = allTasks.find((task) => task?.id === taskId);
+      if (taskToEdit) setEditTask(taskToEdit);
+    }
+  }, [allTasks]);
+
   // Submit event
   const handleOnCreateNewTask = (event: React.FormEvent) => {
     event.preventDefault();
-    const taskId = crypto.randomUUID();
-    const newTaskObject: Task = { ...newTask, id: taskId };
-    console.log("this is refactored code -> ", newTaskObject);
+    console.log("this is refactored code edit task -> ", editTask);
+
+    // Delete the existing object from the array
+    const filteredTasks = allTasks.filter((task) => task.id !== taskId);
+
+    // Add the new Item
+    filteredTasks.push(editTask);
+
+    // Save
+    localStorage.setItem("tasks", JSON.stringify(filteredTasks));
+
+    navigate("/");
   };
 
   const handleTaskNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewTask({
-      ...newTask,
+    setEditTask({
+      ...editTask,
       name: event?.target?.value,
     });
   };
 
   const handleTaskDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewTask({
-      ...newTask,
+    setEditTask({
+      ...editTask,
       description: event?.target?.value,
     });
   };
 
   const handleTaskDeadlineChange = (selectedDate: Dayjs | null) => {
-    setNewTask({
-      ...newTask,
+    setEditTask({
+      ...editTask,
       deadline: dayjs(selectedDate, { format: "DD-MM-YYYY" }),
     });
   };
 
   const handleStatusChange = (event: SelectChangeEvent<Status>) => {
-    setNewTask({
-      ...newTask,
+    setEditTask({
+      ...editTask,
       status: event?.target?.value as Status,
     });
   };
 
   return (
     <>
-      <h1 className="page-header">Create New Task</h1>
+      <h1 className="page-header">Edit Task</h1>
+      <h4 className="page-sub-header">Task ID : {taskId}</h4>
       <TaskForm
-        task={newTask}
-        setTask={setNewTask}
+        task={editTask}
         handleOnSubmitTask={handleOnCreateNewTask}
         handleTaskNameChange={handleTaskNameChange}
         handleTaskDescriptionChange={handleTaskDescriptionChange}
         handleTaskDeadlineChange={handleTaskDeadlineChange}
         handleStatusChange={handleStatusChange}
+        isEdit={true}
       />
     </>
   );

@@ -17,6 +17,7 @@ export default function TaskForm({
   handleTaskDeadlineChange,
   handleStatusChange,
   handleOnSubmitTask,
+  isEdit,
 }: TaskFormProps) {
   return (
     <>
@@ -31,6 +32,7 @@ export default function TaskForm({
               <TextField
                 onChange={handleTaskDescriptionChange}
                 id="description"
+                value={task.description}
                 label="Description"
                 variant="outlined"
               />
@@ -59,7 +61,7 @@ export default function TaskForm({
             </FormControl>
 
             <Button className="form-field" type="submit" variant="contained">
-              Create
+              {isEdit ? "Save" : "Create"}
             </Button>
           </div>
         </form>

@@ -74,12 +74,12 @@ export default function NewTask() {
       <h1 className="page-header">Create New Task</h1>
       <TaskForm
         task={newTask}
-        setTask={setNewTask}
         handleOnSubmitTask={handleOnCreateNewTask}
         handleTaskNameChange={handleTaskNameChange}
         handleTaskDescriptionChange={handleTaskDescriptionChange}
         handleTaskDeadlineChange={handleTaskDeadlineChange}
         handleStatusChange={handleStatusChange}
+        isEdit={false}
       />
     </>
   );
