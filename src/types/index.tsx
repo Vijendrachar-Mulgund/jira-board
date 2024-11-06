@@ -1,3 +1,4 @@
+import { SelectChangeEvent } from "@mui/material/Select";
 import { Dayjs } from "dayjs";
 
 export interface Task {
@@ -12,4 +13,14 @@ export enum Status {
   toDo = "TODO",
   inProgress = "INPROGRESS",
   done = "DONE",
+}
+
+export interface TaskFormProps {
+  task: Task;
+  setTask: React.Dispatch<React.SetStateAction<Task>>;
+  handleTaskNameChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleTaskDescriptionChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleTaskDeadlineChange: (selectedDate: Dayjs | null) => void;
+  handleStatusChange: (event: SelectChangeEvent<Status>) => void;
+  handleOnSubmitTask: (event: React.FormEvent) => void;
 }
