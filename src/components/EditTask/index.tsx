@@ -1,14 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Status, Task } from "../../types";
 import TaskForm from "../TaskForm";
 import dayjs, { Dayjs } from "dayjs";
 import { SelectChangeEvent } from "@mui/material/Select";
-import { useNavigate } from "react-router";
 
 export default function NewTask() {
-  const navigate = useNavigate();
-
-  const [allTasks, setAllTasks] = useState<Task[]>([]);
   const [newTask, setNewTask] = useState<Task>({
     id: "",
     name: "",
@@ -17,28 +13,12 @@ export default function NewTask() {
     status: Status.toDo,
   });
 
-  useEffect(() => {
-    const localData: any = localStorage.getItem("tasks");
-
-    if (localData) {
-      setAllTasks(JSON.parse(localData));
-    }
-  }, []);
-
   // Submit event
   const handleOnCreateNewTask = (event: React.FormEvent) => {
     event.preventDefault();
-
-    // Generate an ID for the task
     const taskId = crypto.randomUUID();
     const newTaskObject: Task = { ...newTask, id: taskId };
-
-    allTasks.push(newTaskObject);
-
-    // Save the tasks to the local storage
-    localStorage.setItem("tasks", JSON.stringify(allTasks));
-
-    navigate("/");
+    console.log("this is refactored code -> ", newTaskObject);
   };
 
   const handleTaskNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
