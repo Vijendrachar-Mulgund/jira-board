@@ -6,7 +6,7 @@ import { SelectChangeEvent } from "@mui/material/Select";
 import { useNavigate, useParams } from "react-router-dom";
 import { TasksContext } from "../../contexts/TasksContext";
 
-export default function EditTask() {
+export default function EditTask({ isView }: any) {
   const { taskId, status } = useParams();
   const navigate = useNavigate();
 
@@ -93,7 +93,7 @@ export default function EditTask() {
 
   return (
     <>
-      <h1 className="page-header">Edit Task</h1>
+      <h1 className="page-header">{isView ? "View" : "Edit"} Task</h1>
       <h4 className="page-sub-header">Task ID : {taskId}</h4>
       <TaskForm
         task={editTask}
@@ -103,6 +103,7 @@ export default function EditTask() {
         handleTaskDeadlineChange={handleTaskDeadlineChange}
         handleStatusChange={handleStatusChange}
         isEdit={true}
+        isView={isView}
       />
     </>
   );

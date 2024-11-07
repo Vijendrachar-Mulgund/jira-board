@@ -18,6 +18,7 @@ export default function TaskForm({
   handleStatusChange,
   handleOnSubmitTask,
   isEdit,
+  isView,
 }: TaskFormProps) {
   return (
     <>
@@ -25,11 +26,19 @@ export default function TaskForm({
         <form onSubmit={handleOnSubmitTask}>
           <div className="form-container">
             <FormControl className="form-field">
-              <TextField onChange={handleTaskNameChange} value={task?.name} id="name" label="Name" variant="outlined" />
+              <TextField
+                disabled={isView}
+                onChange={handleTaskNameChange}
+                value={task?.name}
+                id="name"
+                label="Name"
+                variant="outlined"
+              />
             </FormControl>
 
             <FormControl className="form-field">
               <TextField
+                disabled={isView}
                 onChange={handleTaskDescriptionChange}
                 id="description"
                 value={task.description}
@@ -41,6 +50,7 @@ export default function TaskForm({
             <FormControl className="form-field">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
+                  disabled={isView}
                   value={task.deadline ? dayjs(task.deadline, { format: "DD-MM-YYYY" }) : null}
                   format="DD-MM-YYYY"
                   onChange={handleTaskDeadlineChange}
@@ -51,7 +61,7 @@ export default function TaskForm({
 
             <FormControl className="form-field">
               <InputLabel id="demo-simple-select-label">Status</InputLabel>
-              <Select id="status" value={task.status} label="Status" onChange={handleStatusChange}>
+              <Select disabled={isView} id="status" value={task.status} label="Status" onChange={handleStatusChange}>
                 {Object.values(Status).map((taskStatus) => (
                   <MenuItem key={taskStatus} value={taskStatus}>
                     {taskStatus}
@@ -60,7 +70,7 @@ export default function TaskForm({
               </Select>
             </FormControl>
 
-            <Button className="form-field" type="submit" variant="contained">
+            <Button disabled={isView} className="form-field" type="submit" variant="contained">
               {isEdit ? "Save" : "Create"}
             </Button>
           </div>

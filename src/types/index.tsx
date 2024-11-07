@@ -18,6 +18,7 @@ export enum Status {
 export interface TaskFormProps {
   task: Task;
   isEdit: boolean;
+  isView: boolean;
   handleTaskNameChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleTaskDescriptionChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleTaskDeadlineChange: (selectedDate: Dayjs | null) => void;

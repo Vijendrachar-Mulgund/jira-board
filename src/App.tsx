@@ -30,7 +30,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Board />}></Route>
             <Route path="/new-task" element={<NewTask />}></Route>
-            <Route path="/edit-task/:taskId/:status" element={<EditTask />}></Route>
+            <Route path="/edit-task/:taskId/:status" element={<EditTask isView={false} />}></Route>
+            <Route path="/view-task/:taskId/:status" element={<EditTask isView={true} />}></Route>
           </Routes>
         </TasksContext.Provider>
       </div>

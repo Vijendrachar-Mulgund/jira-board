@@ -52,10 +52,25 @@ export default function Board() {
   };
 
   const handleOnEdit = (task: Task) => {
-    navigate(`/edit-task/${task?.id}/${task?.status}`);
+    navigate(`edit-task/${task?.id}/${task?.status}`);
   };
+
   const handleOnDelete = (task: Task) => {
-    console.log("task", task);
+    const filteredTasks = board[task?.status]?.filter((item: Task) => item?.id !== task?.id);
+
+    // Put the updated array
+    setBoard((prev: any) => {
+      const updatedBoardItems = {
+        ...prev,
+        [task?.status]: filteredTasks,
+      };
+      localStorage.setItem("tasks", JSON.stringify(updatedBoardItems));
+      return updatedBoardItems;
+    });
+  };
+
+  const handleOnView = (task: Task) => {
+    navigate(`view-task/${task?.id}/${task?.status}`);
   };
 
   return (
@@ -80,6 +95,7 @@ export default function Board() {
                       onDragStart={(e: React.DragEvent) => handleOnDragStart(e, task)}
                       onEdit={() => handleOnEdit(task)}
                       onDelete={() => handleOnDelete(task)}
+                      onView={() => handleOnView(task)}
                       name={task?.name}
                       status={task?.status}
                     />

@@ -4,7 +4,7 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
-export default function MediaCard({ name, status, onDragStart, onEdit, onDelete }: any) {
+export default function MediaCard({ name, status, onDragStart, onEdit, onDelete, onView }: any) {
   return (
     <Card draggable onDragStart={onDragStart} sx={{ minWidth: "100%", marginY: 2, cursor: "pointer" }}>
       <CardContent>
@@ -17,7 +17,9 @@ export default function MediaCard({ name, status, onDragStart, onEdit, onDelete 
       </CardContent>
       <CardActions sx={{ display: "flex", justifyContent: "space-between" }}>
         <div>
-          <Button size="small">Details</Button>
+          <Button onClick={onView} size="small">
+            Details
+          </Button>
         </div>
         <div>
           <Button onClick={onEdit} size="small">
