@@ -5,9 +5,8 @@ import Board from "./index";
 import { vi } from "vitest";
 import { Status } from "../../types";
 
-// const mockNavigate = vi.fn();
-
 const mockSetBoard = vi.fn();
+
 const mockBoard = {
   [Status.toDo]: [
     {

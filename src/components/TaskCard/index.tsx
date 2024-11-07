@@ -6,7 +6,12 @@ import Typography from "@mui/material/Typography";
 
 export default function MediaCard({ name, status, onDragStart, onEdit, onDelete, onView }: any) {
   return (
-    <Card draggable onDragStart={onDragStart} sx={{ minWidth: "100%", marginY: 2, cursor: "pointer" }}>
+    <Card
+      data-testId={"card-container"}
+      draggable
+      onDragStart={onDragStart}
+      sx={{ minWidth: "100%", marginY: 2, cursor: "pointer" }}
+    >
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {name}

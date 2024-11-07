@@ -79,6 +79,7 @@ export default function NewTask() {
         handleTaskDeadlineChange={handleTaskDeadlineChange}
         handleStatusChange={handleStatusChange}
         isEdit={false}
+        isView={false}
       />
     </>
   );

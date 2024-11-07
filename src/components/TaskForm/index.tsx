@@ -60,8 +60,15 @@ export default function TaskForm({
             </FormControl>
 
             <FormControl className="form-field">
-              <InputLabel id="demo-simple-select-label">Status</InputLabel>
-              <Select disabled={isView} id="status" value={task.status} label="Status" onChange={handleStatusChange}>
+              <InputLabel id="select-label">Status</InputLabel>
+              <Select
+                data-testId={"status-select-element"}
+                disabled={isView}
+                id="status"
+                value={task.status}
+                label="Status"
+                onChange={handleStatusChange}
+              >
                 {Object.values(Status).map((taskStatus) => (
                   <MenuItem key={taskStatus} value={taskStatus}>
                     {taskStatus}
