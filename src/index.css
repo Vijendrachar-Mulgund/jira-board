@@ -12,6 +12,12 @@
   padding: 128px 24px 0 24px;
 }
 
+.task-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .page-header {
   font-size: 3em;
   font-weight: bold;
@@ -23,4 +29,49 @@
   font-weight: normal;
   text-align: center;
   margin: 25px 0;
+}
+
+/* Board */
+.board {
+  margin: 10px;
+  display: flex;
+  border: 1px solid black;
+  border-radius: 8px;
+}
+
+.board__section {
+  width: calc(100vw / 3);
+  height: 500px;
+  text-align: center;
+  position: relative;
+}
+
+.board__section:not(:last-child) {
+  border-right: 1px solid black;
+}
+
+.board .button-container {
+  border-radius: 0 0 0 8px;
+  height: 55px;
+}
+
+.board .button-container .add-button {
+  margin: 0 0 15px 0;
+}
+
+.board .heading {
+  padding: 10px 0;
+  border-bottom: 1px solid black;
+  text-align: center;
+  z-index: 10;
+  background-color: #fff;
+  border-radius: 8px 8px 0 0;
+  font-size: 1.2em;
+  font-weight: 600;
+}
+
+.board .tasks-container {
+  overflow-y: scroll;
+  height: 400px;
+  cursor: pointer;
 }

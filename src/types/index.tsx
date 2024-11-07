@@ -24,3 +24,14 @@ export interface TaskFormProps {
   handleStatusChange: (event: SelectChangeEvent<Status>) => void;
   handleOnSubmitTask: (event: React.FormEvent) => void;
 }
+
+export interface BoardType {
+  [Status.toDo]: Task[];
+  [Status.inProgress]: Task[];
+  [Status.done]: Task[];
+}
+
+export interface BoardContextType {
+  board: BoardType;
+  setBoard: (board: BoardType) => void;
+}

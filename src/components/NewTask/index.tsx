@@ -1,14 +1,16 @@
-import { useEffect, useState } from "react";
-import { Status, Task } from "../../types";
+import { useContext, useState } from "react";
+import { BoardType, Status, Task } from "../../types";
 import TaskForm from "../TaskForm";
 import dayjs, { Dayjs } from "dayjs";
 import { SelectChangeEvent } from "@mui/material/Select";
 import { useNavigate } from "react-router";
+import { TasksContext } from "../../contexts/TasksContext";
 
 export default function NewTask() {
   const navigate = useNavigate();
 
-  const [allTasks, setAllTasks] = useState<Task[]>([]);
+  const { board, setBoard } = useContext(TasksContext);
+
   const [newTask, setNewTask] = useState<Task>({
     id: "",
     name: "",
@@ -16,14 +18,6 @@ export default function NewTask() {
     deadline: null,
     status: Status.toDo,
   });
-
-  useEffect(() => {
-    const localData: any = localStorage.getItem("tasks");
-
-    if (localData) {
-      setAllTasks(JSON.parse(localData));
-    }
-  }, []);
 
   // Submit event
   const handleOnCreateNewTask = (event: React.FormEvent) => {
@@ -33,10 +27,15 @@ export default function NewTask() {
     const taskId = crypto.randomUUID();
     const newTaskObject: Task = { ...newTask, id: taskId };
 
-    allTasks.push(newTaskObject);
+    const updateBoardItems: Task[] = board[newTask.status];
 
-    // Save the tasks to the local storage
-    localStorage.setItem("tasks", JSON.stringify(allTasks));
+    updateBoardItems?.push(newTaskObject);
+
+    setBoard((prev: BoardType) => {
+      const updatedBoardItems = { ...prev, [newTask?.status]: updateBoardItems };
+      localStorage.setItem("tasks", JSON.stringify(updatedBoardItems));
+      return updatedBoardItems;
+    });
 
     navigate("/");
   };

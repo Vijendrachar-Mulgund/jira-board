@@ -1,20 +1,38 @@
 import { Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import Board from "./components/Board";
-// import TaskForm from "./components/TaskForm";
 import NewTask from "./components/NewTask";
 import EditTask from "./components/EditTask";
+import { TasksContext } from "./contexts/TasksContext";
+import { Status } from "./types";
+import { useEffect, useState } from "react";
 
 function App() {
+  const [board, setBoard] = useState({
+    [Status.toDo]: [],
+    [Status.inProgress]: [],
+    [Status.done]: [],
+  });
+
+  useEffect(() => {
+    const localData: any = localStorage.getItem("tasks");
+
+    if (localData) {
+      setBoard(JSON.parse(localData));
+    }
+  }, []);
+
   return (
     <>
       <Header />
       <div className="container">
-        <Routes>
-          <Route path="/" element={<Board />}></Route>
-          <Route path="/new-task" element={<NewTask />}></Route>
-          <Route path="/edit-task/:taskId" element={<EditTask />}></Route>
-        </Routes>
+        <TasksContext.Provider value={{ board, setBoard }}>
+          <Routes>
+            <Route path="/" element={<Board />}></Route>
+            <Route path="/new-task" element={<NewTask />}></Route>
+            <Route path="/edit-task/:taskId" element={<EditTask />}></Route>
+          </Routes>
+        </TasksContext.Provider>
       </div>
     </>
   );
