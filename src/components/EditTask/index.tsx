@@ -1,15 +1,17 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Status, Task } from "../../types";
 import TaskForm from "../TaskForm";
 import dayjs, { Dayjs } from "dayjs";
 import { SelectChangeEvent } from "@mui/material/Select";
 import { useNavigate, useParams } from "react-router-dom";
+import { TasksContext } from "../../contexts/TasksContext";
 
 export default function EditTask() {
-  const { taskId } = useParams();
+  const { taskId, status } = useParams();
   const navigate = useNavigate();
 
-  const [allTasks, setAllTasks] = useState<Task[]>([]);
+  const { board, setBoard } = useContext(TasksContext);
+
   const [editTask, setEditTask] = useState<Task>({
     id: "",
     name: "",
@@ -19,33 +21,44 @@ export default function EditTask() {
   });
 
   useEffect(() => {
-    const localData = localStorage.getItem("tasks");
-
-    if (localData) {
-      setAllTasks(JSON.parse(localData));
+    if (taskId && status) {
+      const taskToEdit: Task = board[status]?.find((element: Task) => element?.id === taskId);
+      setEditTask(taskToEdit);
     }
-  }, [taskId]);
-
-  useEffect(() => {
-    if (allTasks?.length > 0) {
-      const taskToEdit: Task | undefined = allTasks.find((task) => task?.id === taskId);
-      if (taskToEdit) setEditTask(taskToEdit);
-    }
-  }, [allTasks]);
+  }, [taskId, status]);
 
   // Submit event
-  const handleOnCreateNewTask = (event: React.FormEvent) => {
+  const handleOnSaveTask = (event: React.FormEvent) => {
     event.preventDefault();
-    console.log("this is refactored code edit task -> ", editTask);
+    if (status) {
+      const filteredTasks: Task[] = board[status]?.filter((item: Task) => item?.id !== taskId);
 
-    // Delete the existing object from the array
-    const filteredTasks = allTasks.filter((task) => task.id !== taskId);
+      if (status === editTask?.status) {
+        filteredTasks.push(editTask);
 
-    // Add the new Item
-    filteredTasks.push(editTask);
-
-    // Save
-    localStorage.setItem("tasks", JSON.stringify(filteredTasks));
+        // Put the updated array
+        setBoard((prev: any) => {
+          const updatedBoardItems = {
+            ...prev,
+            [status]: filteredTasks,
+          };
+          localStorage.setItem("tasks", JSON.stringify(updatedBoardItems));
+          return updatedBoardItems;
+        });
+      } else {
+        const destinationTasksArray: Task[] = board[editTask?.status];
+        destinationTasksArray.push(editTask);
+        setBoard((prev: any) => {
+          const updatedBoardItems = {
+            ...prev,
+            [status]: filteredTasks,
+            [editTask?.status]: destinationTasksArray,
+          };
+          localStorage.setItem("tasks", JSON.stringify(updatedBoardItems));
+          return updatedBoardItems;
+        });
+      }
+    }
 
     navigate("/");
   };
@@ -84,7 +97,7 @@ export default function EditTask() {
       <h4 className="page-sub-header">Task ID : {taskId}</h4>
       <TaskForm
         task={editTask}
-        handleOnSubmitTask={handleOnCreateNewTask}
+        handleOnSubmitTask={handleOnSaveTask}
         handleTaskNameChange={handleTaskNameChange}
         handleTaskDescriptionChange={handleTaskDescriptionChange}
         handleTaskDeadlineChange={handleTaskDeadlineChange}

@@ -31,6 +31,8 @@ export default function Board() {
     const sourceTaskStatus: Status = selectedTask?.status;
     const destinationTaskStatus: Status = event.currentTarget?.id as Status;
 
+    if (sourceTaskStatus === destinationTaskStatus) return;
+
     // Remove the task from the previous column
     const filteredTasks: Task[] = updateTaskOnBoard?.filter((item) => item?.id !== selectedTask?.id);
 
@@ -47,6 +49,13 @@ export default function Board() {
       localStorage.setItem("tasks", JSON.stringify(updatedBoardItems));
       return updatedBoardItems;
     });
+  };
+
+  const handleOnEdit = (task: Task) => {
+    navigate(`/edit-task/${task?.id}/${task?.status}`);
+  };
+  const handleOnDelete = (task: Task) => {
+    console.log("task", task);
   };
 
   return (
@@ -69,6 +78,8 @@ export default function Board() {
                     <TaskCard
                       key={task?.id}
                       onDragStart={(e: React.DragEvent) => handleOnDragStart(e, task)}
+                      onEdit={() => handleOnEdit(task)}
+                      onDelete={() => handleOnDelete(task)}
                       name={task?.name}
                       status={task?.status}
                     />

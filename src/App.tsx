@@ -30,7 +30,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Board />}></Route>
             <Route path="/new-task" element={<NewTask />}></Route>
-            <Route path="/edit-task/:taskId" element={<EditTask />}></Route>
+            <Route path="/edit-task/:taskId/:status" element={<EditTask />}></Route>
           </Routes>
         </TasksContext.Provider>
       </div>
