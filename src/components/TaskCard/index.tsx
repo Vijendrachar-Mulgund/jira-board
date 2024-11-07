@@ -3,8 +3,9 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { TaskCardProps } from "../../types";
 
-export default function MediaCard({ name, status, onDragStart, onEdit, onDelete, onView }: any) {
+export default function MediaCard({ name, status, onDragStart, onEdit, onDelete, onView }: TaskCardProps) {
   return (
     <Card
       data-testId={"card-container"}

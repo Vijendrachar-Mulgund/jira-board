@@ -9,6 +9,7 @@ import dayjs from "dayjs";
 import { Status, TaskFormProps } from "../../types";
 
 import "./index.css";
+import { useNavigate } from "react-router-dom";
 
 export default function TaskForm({
   task,
@@ -20,6 +21,12 @@ export default function TaskForm({
   isEdit,
   isView,
 }: TaskFormProps) {
+  const navigate = useNavigate();
+
+  const handleCancel = () => {
+    navigate("/");
+  };
+
   return (
     <>
       <div>
@@ -79,6 +86,10 @@ export default function TaskForm({
 
             <Button disabled={isView} className="form-field" type="submit" variant="contained">
               {isEdit ? "Save" : "Create"}
+            </Button>
+
+            <Button onClick={handleCancel} className="form-field" type="button" variant="contained" color="error">
+              {"Cancel"}
             </Button>
           </div>
         </form>

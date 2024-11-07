@@ -36,3 +36,16 @@ export interface BoardContextType {
   board: BoardType;
   setBoard: (board: BoardType) => void;
 }
+
+export interface EditTaskProps {
+  isView: boolean;
+}
+
+export interface TaskCardProps {
+  name: string;
+  status: string;
+  onDragStart: (event: React.DragEvent<HTMLDivElement>) => void;
+  onEdit: () => void;
+  onDelete: () => void;
+  onView: () => void;
+}

@@ -1,12 +1,13 @@
 import { useContext, useEffect, useState } from "react";
-import { Status, Task } from "../../types";
-import TaskForm from "../TaskForm";
-import dayjs, { Dayjs } from "dayjs";
+import { EditTaskProps, Status, Task } from "../../types";
 import { SelectChangeEvent } from "@mui/material/Select";
 import { useNavigate, useParams } from "react-router-dom";
 import { TasksContext } from "../../contexts/TasksContext";
 
-export default function EditTask({ isView }: any) {
+import TaskForm from "../TaskForm";
+import dayjs, { Dayjs } from "dayjs";
+
+export default function EditTask({ isView }: EditTaskProps) {
   const { taskId, status } = useParams();
   const navigate = useNavigate();
 
