@@ -33,21 +33,25 @@
 
 /* Board */
 .board {
-  margin: 10px;
+  margin: 3em 0;
   display: flex;
-  border: 1px solid black;
-  border-radius: 8px;
+  justify-content: space-between;
 }
 
-.board__section {
-  width: calc(100vw / 3);
-  height: 500px;
+.board-header {
+  margin: 2em 0;
   text-align: center;
   position: relative;
 }
 
-.board__section:not(:last-child) {
-  border-right: 1px solid black;
+.board-section {
+  min-width: 30vw;
+  min-height: 75vh;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #2196F3;
 }
 
 .board .button-container {
