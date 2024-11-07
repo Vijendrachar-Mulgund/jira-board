@@ -23,7 +23,7 @@ function App() {
   }, []);
 
   return (
-    <>
+    <div data-testid="main-container">
       <Header />
       <div className="container">
         <TasksContext.Provider value={{ board, setBoard }}>
@@ -35,7 +35,7 @@ function App() {
           </Routes>
         </TasksContext.Provider>
       </div>
-    </>
+    </div>
   );
 }
 
