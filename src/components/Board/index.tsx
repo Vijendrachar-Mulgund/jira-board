@@ -1,22 +1,53 @@
 import Button from "@mui/material/Button";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { TasksContext } from "../../contexts/TasksContext";
+import { Status, Task } from "../../types";
+
 import TaskCard from "../TaskCard";
-import { Task } from "../../types";
 
 export default function Board() {
   const navigate = useNavigate();
 
-  const { board } = useContext(TasksContext);
+  const { board, setBoard } = useContext(TasksContext);
 
   const handleOnNewTask = () => {
     navigate("/new-task");
   };
 
-  useEffect(() => {
-    console.log("The board", board);
-  }, [board]);
+  const handleOnDragStart = (event: React.DragEvent, task: Task) => {
+    event.dataTransfer.setData("task", JSON.stringify(task));
+  };
+
+  const handleOnDragOver = (event: React.DragEvent) => {
+    event.preventDefault();
+  };
+
+  const handleOnDrop = (event: React.DragEvent) => {
+    const eventData: string = event.dataTransfer.getData("task") as string;
+    const selectedTask: Task = JSON.parse(eventData);
+    const updateTaskOnBoard: Task[] = board[selectedTask?.status];
+
+    const sourceTaskStatus: Status = selectedTask?.status;
+    const destinationTaskStatus: Status = event.currentTarget?.id as Status;
+
+    // Remove the task from the previous column
+    const filteredTasks: Task[] = updateTaskOnBoard?.filter((item) => item?.id !== selectedTask?.id);
+
+    const updatedTask: Task = { ...selectedTask, status: event.currentTarget?.id as Status };
+    const updatedTasksOnDestinationBoard: Task[] = [...board[event.currentTarget?.id], updatedTask];
+
+    // Put the updated array
+    setBoard((prev: any) => {
+      const updatedBoardItems = {
+        ...prev,
+        [sourceTaskStatus]: filteredTasks,
+        [destinationTaskStatus]: updatedTasksOnDestinationBoard,
+      };
+      localStorage.setItem("tasks", JSON.stringify(updatedBoardItems));
+      return updatedBoardItems;
+    });
+  };
 
   return (
     <>
@@ -30,11 +61,18 @@ export default function Board() {
       <div className="board">
         {Object.keys(board)?.map((item: any) => {
           return (
-            <div>
+            <div key={item}>
               <div className="board-header">{item}</div>
-              <div className="board-section">
+              <div id={item} onDragOver={handleOnDragOver} onDrop={handleOnDrop} className="board-section">
                 {board[item]?.map((task: Task) => {
-                  return <TaskCard name={task?.name} status={task?.status} />;
+                  return (
+                    <TaskCard
+                      key={task?.id}
+                      onDragStart={(e: React.DragEvent) => handleOnDragStart(e, task)}
+                      name={task?.name}
+                      status={task?.status}
+                    />
+                  );
                 })}
               </div>
             </div>

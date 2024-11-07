@@ -4,9 +4,9 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
-export default function MediaCard({ name, status }: any) {
+export default function MediaCard({ name, status, onDragStart }: any) {
   return (
-    <Card sx={{ minWidth: "100%", marginY: 2 }}>
+    <Card draggable onDragStart={onDragStart} sx={{ minWidth: "100%", marginY: 2, cursor: "pointer" }}>
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {name}
