@@ -11,7 +11,7 @@ describe("App", () => {
         <App />
       </BrowserRouter>,
     );
-    const header = screen.getByTestId("main-container");
-    expect(header).toBeTruthy();
+    const container = screen.getByTestId("main-container");
+    expect(container).toBeInTheDocument();
   });
 });

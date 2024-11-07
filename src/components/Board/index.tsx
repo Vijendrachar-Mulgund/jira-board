@@ -86,7 +86,9 @@ export default function Board() {
         {Object.keys(board)?.map((item: any) => {
           return (
             <div key={item}>
-              <div className="board-header">{item}</div>
+              <div data-testId={`${item}-COLUMN`} className="board-header">
+                {item}
+              </div>
               <div id={item} onDragOver={handleOnDragOver} onDrop={handleOnDrop} className="board-section">
                 {board[item]?.map((task: Task) => {
                   return (
